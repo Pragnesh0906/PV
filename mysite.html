@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PragneshVaghela.com</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0d0f; --surface:#16161a; --surface-2:#1e1e24;
+    --gold:#d4af7a; --gold-bright:#e8c99a; --text:#f2efe9;
+    --muted:#9a968f; --line:#2a2a30; --danger:#c96a5a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.6}
+  h1,h2,h3,.serif{font-family:'Cormorant Garamond',serif}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--gold);color:#000}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;
+    padding:18px 6vw;background:rgba(13,13,15,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .brand{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;letter-spacing:.5px}
+  .brand span{color:var(--gold)}
+  .nav-links{display:flex;gap:6px}
+  .nav-links button{background:none;border:none;color:var(--muted);font-family:inherit;font-size:.92rem;
+    padding:8px 16px;border-radius:20px;cursor:pointer;transition:.25s}
+  .nav-links button:hover{color:var(--text)}
+  .nav-links button.active{background:var(--gold);color:#000;font-weight:500}
+
+  main{max-width:1150px;margin:0 auto;padding:0 6vw 80px}
+  section{display:none;animation:fade .5s ease}
+  section.show{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+  /* HERO */
+  .hero{display:grid;grid-template-columns:1.4fr .8fr;gap:50px;align-items:center;padding:70px 0 50px}
+  .hero .eyebrow{color:var(--gold);letter-spacing:3px;text-transform:uppercase;font-size:.78rem;margin-bottom:18px}
+  .hero h1{font-size:4.2rem;line-height:1.02;font-weight:700;margin-bottom:22px}
+  .hero h1 em{color:var(--gold);font-style:italic}
+  .hero p.bio{color:var(--muted);font-size:1.08rem;max-width:520px;margin-bottom:26px}
+  .tagline{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:34px}
+  .tagline span{background:var(--surface-2);border:1px solid var(--line);padding:8px 15px;border-radius:30px;
+    font-size:.9rem;color:var(--text)}
+  .hero-cta{display:flex;gap:14px}
+  .btn{font-family:inherit;font-size:.95rem;padding:13px 26px;border-radius:30px;cursor:pointer;border:1px solid var(--gold);transition:.25s}
+  .btn.primary{background:var(--gold);color:#000;font-weight:500}
+  .btn.primary:hover{background:var(--gold-bright)}
+  .btn.ghost{background:none;color:var(--gold)}
+  .btn.ghost:hover{background:rgba(212,175,122,.1)}
+
+  .profile-card{background:linear-gradient(160deg,var(--surface-2),var(--surface));border:1px solid var(--line);
+    border-radius:24px;padding:34px;text-align:center;box-shadow:0 30px 60px -20px rgba(0,0,0,.6)}
+  .avatar{width:120px;height:120px;border-radius:50%;margin:0 auto 18px;
+    background:linear-gradient(135deg,var(--gold),#8a6d42);display:flex;align-items:center;justify-content:center;
+    font-family:'Cormorant Garamond',serif;font-size:2.6rem;color:#000;font-weight:700}
+  .profile-card h3{font-size:1.6rem;margin-bottom:4px}
+  .profile-card .role{color:var(--gold);font-size:.88rem;letter-spacing:1px;margin-bottom:22px}
+  .stats{display:flex;justify-content:space-around;border-top:1px solid var(--line);padding-top:20px}
+  .stats .num{font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--gold);line-height:1}
+  .stats .lbl{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+
+  /* SECTION HEAD */
+  .sec-head{display:flex;justify-content:space-between;align-items:flex-end;padding:50px 0 26px;flex-wrap:wrap;gap:16px}
+  .sec-head h2{font-size:2.8rem}
+  .sec-head p{color:var(--muted)}
+  .filters{display:flex;gap:8px}
+  .filters button{background:var(--surface-2);border:1px solid var(--line);color:var(--muted);
+    padding:7px 16px;border-radius:20px;cursor:pointer;font-family:inherit;font-size:.85rem;transition:.2s}
+  .filters button.active{background:var(--gold);color:#000;border-color:var(--gold)}
+
+  /* GRID + CARDS */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;
+    transition:.3s;position:relative}
+  .card:hover{transform:translateY(-5px);border-color:var(--gold)}
+  .card.archived{opacity:.55}
+  .card .thumb{height:190px;background:var(--surface-2);background-size:cover;background-position:center;position:relative}
+  .card .thumb.vid::after{content:'▶';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-size:2.4rem;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+  .badge{position:absolute;top:12px;left:12px;background:rgba(0,0,0,.7);color:var(--gold);
+    font-size:.68rem;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:12px}
+  .card .body{padding:18px}
+  .card .body h3{font-size:1.35rem;margin-bottom:6px}
+  .card .body p{color:var(--muted);font-size:.9rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .card .date{font-size:.75rem;color:var(--gold);margin-top:12px;letter-spacing:.5px}
+  .card .actions{display:flex;gap:6px;padding:0 18px 18px;flex-wrap:wrap}
+  .card .actions button{flex:1;min-width:60px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);
+    font-family:inherit;font-size:.78rem;padding:7px;border-radius:10px;cursor:pointer;transition:.2s}
+  .card .actions button:hover{color:var(--text);border-color:var(--gold)}
+  .card .actions button.del:hover{color:var(--danger);border-color:var(--danger)}
+
+  .empty{text-align:center;padding:80px 20px;color:var(--muted)}
+  .empty .serif{font-size:2rem;color:var(--gold);margin-bottom:8px}
+
+  /* BLOG ITEM */
+  .blog-item{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:30px;margin-bottom:20px;transition:.3s}
+  .blog-item:hover{border-color:var(--gold)}
+  .blog-item.archived{opacity:.55}
+  .blog-item h3{font-size:1.9rem;margin-bottom:6px;cursor:pointer}
+  .blog-item .meta{font-size:.78rem;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+  .blog-item .excerpt{color:var(--muted);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .blog-item .actions{display:flex;gap:8px;margin-top:18px}
+  .blog-item .actions button{background:var(--surface-2);border:1px solid var(--line);color:var(--muted);
+    font-family:inherit;font-size:.82rem;padding:8px 16px;border-radius:12px;cursor:pointer;transition:.2s}
+  .blog-item .actions button:hover{color:var(--text);border-color:var(--gold)}
+  .blog-item .actions button.del:hover{color:var(--danger);border-color:var(--danger)}
+
+  /* MODAL */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);z-index:100;
+    display:none;align-items:center;justify-content:center;padding:20px}
+  .overlay.show{display:flex}
+  .modal{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:36px;
+    width:100%;max-width:560px;max-height:88vh;overflow-y:auto;animation:pop .3s ease}
+  .modal.wide{max-width:760px}
+  @keyframes pop{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+  .modal h3{font-size:2rem;margin-bottom:22px;color:var(--gold)}
+  .field{margin-bottom:18px}
+  .field label{display:block;font-size:.82rem;color:var(--muted);margin-bottom:7px;letter-spacing:.5px}
+  .field input,.field textarea{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--text);
+    font-family:inherit;font-size:.95rem;padding:12px 14px;border-radius:12px;transition:.2s}
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--gold)}
+  .field textarea{resize:vertical;min-height:120px}
+  .modal-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:26px}
+
+  .viewer-media{width:100%;border-radius:14px;margin-bottom:20px;background:#000}
+  .viewer-media img{width:100%;border-radius:14px;display:block}
+  .viewer-body{white-space:pre-wrap;color:var(--text);line-height:1.8;font-size:1.05rem}
+
+  /* TOAST */
+  #toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);
+    background:var(--gold);color:#000;padding:13px 26px;border-radius:30px;font-weight:500;font-size:.9rem;
+    z-index:200;opacity:0;transition:.35s;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+  #toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+  footer{text-align:center;padding:40px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line)}
+  footer span{color:var(--gold)}
+
+  @media(max-width:820px){
+    .hero{grid-template-columns:1fr;gap:40px}
+    .hero h1{font-size:3rem}
+    .nav-links button{padding:8px 11px;font-size:.82rem}
+    .brand{font-size:1.25rem}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">Pragnesh<span>Vaghela</span></div>
+  <div class="nav-links">
+    <button class="active" data-nav="home">Home</button>
+    <button data-nav="images">Images</button>
+    <button data-nav="videos">Videos</button>
+    <button data-nav="vlog">Vlog</button>
+  </div>
+</nav>
+
+<main>
+  <!-- HOME -->
+  <section id="home" class="show">
+    <div class="hero">
+      <div>
+        <div class="eyebrow">Welcome to my world</div>
+        <h1>Hi, I'm <em>Pragnesh</em> Vaghela</h1>
+        <p class="bio">This is my personal space — a curated corner of the internet where I share my journey through images, videos, and words. Grab a coffee and explore.</p>
+        <div class="tagline">
+          <span>💻 Techy by profession</span>
+          <span>🏋️‍♂️ Fitness freak by choice</span>
+          <span>🏆 Sports lover at heart</span>
+          <span>✨ Hardcore karma believer</span>
+        </div>
+        <div class="hero-cta">
+          <button class="btn primary" data-nav="vlog">Read My Vlog</button>
+          <button class="btn ghost" data-nav="images">View Gallery</button>
+        </div>
+      </div>
+      <div class="profile-card">
+        <div class="avatar">PV</div>
+        <h3>Pragnesh Vaghela</h3>
+        <div class="role">Creator · Athlete · Believer</div>
+        <div class="stats">
+          <div><div class="num" id="stat-img">0</div><div class="lbl">Photos</div></div>
+          <div><div class="num" id="stat-vid">0</div><div class="lbl">Videos</div></div>
+          <div><div class="num" id="stat-blog">0</div><div class="lbl">Blogs</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMAGES -->
+  <section id="images">
+    <div class="sec-head">
+      <div><h2>Images</h2><p>Moments captured in frames</p></div>
+      <button class="btn primary" onclick="openForm('images')">+ Add Image</button>
+    </div>
+    <div class="filters" data-filter="images">
+      <button class="active" data-f="active">Active</button>
+      <button data-f="archived">Archived</button>
+      <button data-f="all">All</button>
+    </div>
+    <div class="grid" id="grid-images" style="margin-top:24px"></div>
+  </section>
+
+  <!-- VIDEOS -->
+  <section id="videos">
+    <div class="sec-head">
+      <div><h2>Videos</h2><p>Stories that move</p></div>
+      <button class="btn primary" onclick="openForm('videos')">+ Add Video</button>
+    </div>
+    <div class="filters" data-filter="videos">
+      <button class="active" data-f="active">Active</button>
+      <button data-f="archived">Archived</button>
+      <button data-f="all">All</button>
+    </div>
+    <div class="grid" id="grid-videos" style="margin-top:24px"></div>
+  </section>
+
+  <!-- VLOG -->
+  <section id="vlog">
+    <div class="sec-head">
+      <div><h2>My Vlog Space</h2><p>Thoughts, stories & reflections</p></div>
+      <button class="btn primary" onclick="openForm('vlog')">+ Write Blog</button>
+    </div>
+    <div class="filters" data-filter="vlog">
+      <button class="active" data-f="active">Active</button>
+      <button data-f="archived">Archived</button>
+      <button data-f="all">All</button>
+    </div>
+    <div id="grid-vlog" style="margin-top:24px"></div>
+  </section>
+</main>
+
+<footer>© 2026 <span>PragneshVaghela.com</span> — Built with passion & good karma ✨</footer>
+
+<!-- FORM MODAL -->
+<div class="overlay" id="formOverlay">
+  <div class="modal" id="formModal"></div>
+</div>
+
+<!-- VIEWER MODAL -->
+<div class="overlay" id="viewOverlay">
+  <div class="modal wide" id="viewModal"></div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="overlay" id="confirmOverlay">
+  <div class="modal" style="max-width:400px">
+    <h3>Delete?</h3>
+    <p style="color:var(--muted);margin-bottom:10px">This action cannot be undone. Are you sure you want to permanently delete this item?</p>
+    <div class="modal-actions">
+      <button class="btn ghost" onclick="closeAll()">Cancel</button>
+      <button class="btn primary" id="confirmDelBtn" style="background:var(--danger);border-color:var(--danger);color:#fff">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ---------- DATA ---------- */
+const KEY='pv_site_data';
+let db=JSON.parse(localStorage.getItem(KEY))||null;
+if(!db){
+  db={
+    images:[{id:id(),title:'Mountain Sunrise',url:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600',desc:'Early morning trek to the summit.',date:'2026-05-12',archived:false}],
+    videos:[{id:id(),title:'My Fitness Journey',url:'https://www.youtube.com/watch?v=dQw4w9WgXcQ',desc:'A year of dedication in 3 minutes.',date:'2026-04-20',archived:false}],
+    vlog:[{id:id(),title:'Why Karma Always Comes Back',url:'',desc:'I have always believed that what you give to the world returns to you — sometimes quietly, sometimes loudly. This is my take on living with intention...\n\nEvery action ripples outward. When you lift someone up, you rise too. That is not spirituality — that is physics of the soul.',date:'2026-06-01',archived:false}]
+  };
+  save();
+}
+function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));renderStats()}
+
+/* ---------- NAV ---------- */
+document.querySelectorAll('[data-nav]').forEach(b=>{
+  b.onclick=()=>{
+    const t=b.dataset.nav;
+    document.querySelectorAll('section').forEach(s=>s.classList.remove('show'));
+    document.getElementById(t).classList.add('show');
+    document.querySelectorAll('.nav-links button').forEach(n=>n.classList.toggle('active',n.dataset.nav===t));
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+});
+
+/* ---------- FILTERS ---------- */
+const filterState={images:'active',videos:'active',vlog:'active'};
+document.querySelectorAll('.filters').forEach(fbox=>{
+  const type=fbox.dataset.filter;
+  fbox.querySelectorAll('button').forEach(btn=>{
+    btn.onclick=()=>{
+      filterState[type]=btn.dataset.f;
+      fbox.querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===btn));
+      render(type);
+    };
+  });
+});
+
+/* ---------- YOUTUBE HELPER ---------- */
+function ytId(url){
+  const m=url.match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/);
+  return m?m[1]:null;
+}
+function ytThumb(url){const i=ytId(url);return i?`https://img.youtube.com/vi/${i}/hqdefault.jpg`:''}
+
+/* ---------- RENDER ---------- */
+function visible(type){
+  const f=filterState[type];
+  return db[type].filter(x=>f==='all'?true:f==='archived'?x.archived:!x.archived);
+}
+function render(type){
+  if(type==='vlog')return renderVlog();
+  const el=document.getElementById('grid-'+type);
+  const items=visible(type);
+  if(!items.length){el.innerHTML=emptyHTML(type);return}
+  el.innerHTML=items.map(x=>{
+    const thumb=type==='videos'?ytThumb(x.url):x.url;
+    return `<div class="card ${x.archived?'archived':''}">
+      <div class="thumb ${type==='videos'?'vid':''}" style="background-image:url('${thumb}')" ${type==='videos'?`onclick="viewVideo('${x.id}')"`:`onclick="viewImage('${x.id}')"`}>
+        ${x.archived?'<span class="badge">Archived</span>':''}
+      </div>
+      <div class="body">
+        <h3>${esc(x.title)}</h3>
+        <p>${esc(x.desc||'')}</p>
+        <div class="date">${fmt(x.date)}</div>
+      </div>
+      <div class="actions">
+        <button onclick="openForm('${type}','${x.id}')">Edit</button>
+        <button onclick="toggleArchive('${type}','${x.id}')">${x.archived?'Restore':'Archive'}</button>
+        <button class="del" onclick="askDelete('${type}','${x.id}')">Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function renderVlog(){
+  const el=document.getElementById('grid-vlog');
+  const items=visible('vlog');
+  if(!items.length){el.innerHTML=emptyHTML('vlog');return}
+  el.innerHTML=items.map(x=>`<div class="blog-item ${x.archived?'archived':''}">
+    ${x.archived?'<span class="badge" style="position:static;display:inline-block;margin-bottom:10px">Archived</span>':''}
+    <h3 onclick="viewBlog('${x.id}')">${esc(x.title)}</h3>
+    <div class="meta">${fmt(x.date)}</div>
+    <div class="excerpt">${esc(x.desc||'')}</div>
+    <div class="actions">
+      <button onclick="viewBlog('${x.id}')">Read</button>
+      <button onclick="openForm('vlog','${x.id}')">Edit</button>
+      <button onclick="toggleArchive('vlog','${x.id}')">${x.archived?'Restore':'Archive'}</button>
+      <button class="del" onclick="askDelete('vlog','${x.id}')">Delete</button>
+    </div>
+  </div>`).join('');
+}
+function emptyHTML(type){
+  const map={images:'No images yet',videos:'No videos yet',vlog:'No blogs yet'};
+  return `<div class="empty"><div class="serif">${map[type]}</div><p>Click the add button to get started.</p></div>`;
+}
+
+/* ---------- FORM ---------- */
+function openForm(type,itemId){
+  const editing=itemId?db[type].find(x=>x.id===itemId):null;
+  const isVlog=type==='vlog', isVid=type==='videos';
+  const labels={images:'Image',videos:'Video',vlog:'Blog'};
+  const m=document.getElementById('formModal');
+  m.className='modal'+(isVlog?' wide':'');
+  m.innerHTML=`
+    <h3>${editing?'Edit':'Add'} ${labels[type]}</h3>
+    <div class="field"><label>Title</label><input id="f_title" value="${editing?esc(editing.title):''}" placeholder="Enter a title"></div>
+    ${!isVlog?`<div class="field"><label>${isVid?'YouTube URL':'Image URL'}</label><input id="f_url" value="${editing?esc(editing.url):''}" placeholder="${isVid?'https://youtube.com/watch?v=...':'https://...'}"></div>`:''}
+    <div class="field"><label>${isVlog?'Content':'Description'}</label><textarea id="f_desc" ${isVlog?'style="min-height:220px"':''} placeholder="${isVlog?'Write your thoughts...':'A short description'}">${editing?esc(editing.desc||''):''}</textarea></div>
+    <div class="field"><label>Date</label><input type="date" id="f_date" value="${editing?editing.date:new Date().toISOString().slice(0,10)}"></div>
+    <div class="modal-actions">
+      <button class="btn ghost" onclick="closeAll()">Cancel</button>
+      <button class="btn primary" onclick="saveItem('${type}','${itemId||''}')">${editing?'Update':'Save'}</button>
+    </div>`;
+  document.getElementById('formOverlay').classList.add('show');
+}
+function saveItem(type,itemId){
+  const title=document.getElementById('f_title').value.trim();
+  const desc=document.getElementById('f_desc').value.trim();
+  const date=document.getElementById('f_date').value;
+  const urlEl=document.getElementById('f_url');
+  const url=urlEl?urlEl.value.trim():'';
+  if(!title){toast('Please enter a title');return}
+  if(type==='videos'&&url&&!ytId(url)){toast('Please enter a valid YouTube URL');return}
+  if(itemId){
+    const it=db[type].find(x=>x.id===itemId);
+    Object.assign(it,{title,desc,date,url});
+    toast('Updated successfully');
+  }else{
+    db[type].unshift({id:id(),title,desc,date,url,archived:false});
+    toast('Added successfully');
+  }
+  save();render(type);closeAll();
+}
+
+/* ---------- ACTIONS ---------- */
+function toggleArchive(type,itemId){
+  const it=db[type].find(x=>x.id===itemId);
+  it.archived=!it.archived;save();render(type);
+  toast(it.archived?'Archived':'Restored');
+}
+let pendingDel=null;
+function askDelete(type,itemId){
+  pendingDel={type,itemId};
+  document.getElementById('confirmOverlay').classList.add('show');
+}
+document.getElementById('confirmDelBtn').onclick=()=>{
+  if(pendingDel){
+    db[pendingDel.type]=db[pendingDel.type].filter(x=>x.id!==pendingDel.itemId);
+    save();render(pendingDel.type);toast('Deleted');pendingDel=null;
+  }
+  closeAll();
+};
+
+/* ---------- VIEWERS ---------- */
+function viewImage(itemId){
+  const x=db.images.find(i=>i.id===itemId);
+  const m=document.getElementById('viewModal');
+  m.innerHTML=`<div class="viewer-media"><img src="${x.url}" alt=""></div>
+    <h3>${esc(x.title)}</h3><div class="meta" style="color:var(--gold);margin:6px 0 14px;letter-spacing:1px">${fmt(x.date)}</div>
+    <div class="viewer-body">${esc(x.desc||'')}</div>
+    <div class="modal-actions"><button class="btn ghost" onclick="closeAll()">Close</button></div>`;
+  document.getElementById('viewOverlay').classList.add('show');
+}
+function viewVideo(itemId){
+  const x=db.videos.find(i=>i.id===itemId);
+  const vid=ytId(x.url);
+  const m=document.getElementById('viewModal');
+  m.innerHTML=`<div class="viewer-media"><iframe width="100%" height="400" style="border-radius:14px" src="https://www.youtube.com/embed/${vid}" frameborder="0" allowfullscreen></iframe></div>
+    <h3>${esc(x.title)}</h3><div class="meta" style="color:var(--gold);margin:6px 0 14px;letter-spacing:1px">${fmt(x.date)}</div>
+    <div class="viewer-body">${esc(x.desc||'')}</div>
+    <div class="modal-actions"><button class="btn ghost" onclick="closeAll()">Close</button></div>`;
+  document.getElementById('viewOverlay').classList.add('show');
+}
+function viewBlog(itemId){
+  const x=db.vlog.find(i=>i.id===itemId);
+  const m=document.getElementById('viewModal');
+  m.innerHTML=`<div class="meta" style="color:var(--gold);letter-spacing:1px;text-transform:uppercase;font-size:.78rem">${fmt(x.date)}</div>
+    <h3 style="font-size:2.6rem;margin:6px 0 20px">${esc(x.title)}</h3>
+    <div class="viewer-body">${esc(x.desc||'')}</div>
+    <div class="modal-actions" style="margin-top:30px"><button class="btn ghost" onclick="closeAll()">Close</button></div>`;
+  document.getElementById('viewOverlay').classList.add('show');
+}
+
+/* ---------- HELPERS ---------- */
+function closeAll(){document.querySelectorAll('.overlay').forEach(o=>o.classList.remove('show'))}
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)closeAll()}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
+function esc(s){return(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function fmt(d){if(!d)return'';return new Date(d+'T00:00').toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}
+let toastT;
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2500)}
+function renderStats(){
+  document.getElementById('stat-img').textContent=db.images.filter(x=>!x.archived).length;
+  document.getElementById('stat-vid').textContent=db.videos.filter(x=>!x.archived).length;
+  document.getElementById('stat-blog').textContent=db.vlog.filter(x=>!x.archived).length;
+}
+
+/* ---------- INIT ---------- */
+render('images');render('videos');renderVlog();renderStats();
+</script>
+</body>
+</html>
